@@ -28,7 +28,7 @@ function getDataAsManyAsPossible(){
   }else{
     nextPageToken = access(nextPageToken);
   }
-  for(var i = 0; i < 2; i++) {
+  for(var i = 0; i < 10; i++) {
     nextPageToken = access(nextPageToken);
   }
 }
@@ -40,12 +40,13 @@ function getTokenOrEmpty(){
   return nextPageToken;
 }
 
+// 1回APIを叩いて記録する
 function access(nextPageToken){
   var query = makeQuery(nextPageToken);
   var resultsNext = YouTube.Search.list('id,snippet', query);
   writeList(resultsNext);
-  writeStatic(results);
-  var nextPageToken = results.nextPageToken;
+  writeStatic(resultsNext);
+  var nextPageToken = resultsNext.nextPageToken;
   return nextPageToken;
 }
 
