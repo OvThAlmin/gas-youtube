@@ -21,10 +21,38 @@ function myFunction() {
   writeList(resultsNext);
 }
 
+function getDataAsManyAsPossible(){
+  var nextPageToken = getTokenOrEmpty();
+  if(nextPageToken == ""){
+    nextPageToken = access("");
+  }else{
+    nextPageToken = access(nextPageToken);
+  }
+  for(var i = 0; i < 2; i++) {
+    nextPageToken = access(nextPageToken);
+  }
+}
+
+function getTokenOrEmpty(){
+  var id = ['19TFJvOxuSVAIpNnt0Ewi2SG7TszpyrKNfcwKFYLHKtM'];
+  var staticSheet = SpreadsheetApp.openById(id).getSheetByName("static");
+  var nextPageToken = staticSheet.getRange("C2").getValue();
+  return nextPageToken;
+}
+
+function access(nextPageToken){
+  var query = makeQuery(nextPageToken);
+  var resultsNext = YouTube.Search.list('id,snippet', query);
+  writeList(resultsNext);
+  writeStatic(results);
+  var nextPageToken = results.nextPageToken;
+  return nextPageToken;
+}
+
 // クエリを作成
 function makeQuery(nextPageToken){
   var query = {
-    q: 'Google Apps Script',
+    q: 'World of Tanks',
     type: 'video',
     eventType: 'completed',
     maxResults: 50,
