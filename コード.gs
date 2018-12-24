@@ -28,7 +28,7 @@ function getDataAsManyAsPossible(){
   }else{
     nextPageToken = access(nextPageToken);
   }
-  for(var i = 0; i < 10; i++) {
+  for(var i = 0; i < 5; i++) {
     nextPageToken = access(nextPageToken);
   }
 }
@@ -69,11 +69,12 @@ function makeQuery(nextPageToken){
 function writeList(results){
   var data = [];
   for(var i = 0; i < results.items.length; i++) {
-    Logger.log(results.items[i]);
     var item = results.items[i];
     data.push([item.snippet.title, item.snippet.description, item.snippet.publishedAt, "http://www.youtube.com/watch?v=" + item.id.videoId]);
   }
-  var sheet =SpreadsheetApp.getActive().getSheetByName("list")
+  var id = ['19TFJvOxuSVAIpNnt0Ewi2SG7TszpyrKNfcwKFYLHKtM']
+  var ss = SpreadsheetApp.openById(id)
+  var sheet = ss.getSheetByName("list")
   var lr = sheet.getLastRow();
  sheet.getRange(lr+1,1,data.length,4).setValues(data);
 }
